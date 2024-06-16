@@ -29,11 +29,6 @@ app.listen(PORT, () => {
 });
 
 const client = redis.createClient();
-client.connect();
-
-client.on("connect", () => {
-  console.log("Redis connected");
-});
 
 const db = require("./app/models");
 db.mongoose
@@ -43,6 +38,12 @@ db.mongoose
   })
   .then(() => {
     console.log("Connected to the database!");
+
+    client.connect();
+
+    client.on("connect", () => {
+      console.log("Redis connected");
+    });
   })
   .catch((err) => {
     console.log("Cannot connect to the database!", err);
